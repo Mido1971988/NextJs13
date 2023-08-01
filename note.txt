@@ -1,0 +1,31 @@
+**** NextJs 13 ( Dave-Gary) *****
+https://nextjs.org/docs
+
+
+* why NextJs?
+    1.Server-side rendering (SSR):  can improve website performance and user experience by pre-rendering pages and sending fully-formed HTML to the browser.
+    2.Automatic code splitting: Next js automatically splits code into smaller chunks, making it easier to load and reducing the time it takes to load the site.
+    3.SEO optimization
+    4.Faster development: Next js includes many features that can speed up development, such as file-based routing, automatic code splitting, and built-in API routes.
+    5.Great developer experience: Next js offers a great developer experience, including hot reloading, automatic code splitting, and easy integration with other popular technologies.
+    6.Built-in support for TypeScript
+    * note : Hot reload : is a feature that lets you inject updated source code into a running app. This means that you can see the effects of your code changes almost instantly, without waiting for the app to rebuild or relaunch.
+
+* Hydration: 
+    Each generated HTML is associated with minimal JavaScript code necessary for that page. When a page is loaded by the browser, its JavaScript code runs and makes the page fully interactive.
+
+* SSG ( static site generation ) vs Server-side Rendering : 
+    -Static Generation (Recommended): The HTML is generated at build time and will be reused on each request.
+    -Server-side Rendering: The HTML is generated on each request.
+    * you can use both method and that called hybrid nextJs 
+
+* CDN(content delivery network): 
+    CDN is a network of servers linked together with the goal of delivering content as quickly, cheaply, reliably, and securely as possible.
+
+* to insall nextJs : npx create-next-app@latest
+
+* layout.tsx : any code will be written there will be applied to all pages ( in layout.tsx in app folder)
+    each page can have specific layout so code inside it will be applied to this specific page only ( in layout.tsx in about folder )
+
+    
+
