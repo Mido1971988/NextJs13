@@ -27,4 +27,43 @@ https://nextjs.org/docs
 * layout.tsx : any code will be written there will be applied to all pages ( in layout.tsx in app folder)
     each page can have specific layout so code inside it will be applied to this specific page only ( in layout.tsx in about folder ).
 
+* Metadata : is availabe at layout.tsx and each page can have layout.tsx file inside it you can add different Metadata ( you can also add Metadata at page.tsx)
 
+* loading : you can add loading.tsx file to any page folder and you will see it if page take too long for loading
+
+* error handling : you can add error.tsx to any page folder and will render it when there is an error and will not crash all project
+
+* Routes : 
+    just create folder and the name of folder will be the route name then add page.tsx file inside it
+
+* Dynamic Routes : 
+    just create a folder and the name of the folder between [] ( like [userId] inside users folder) :
+
+* types.d.ts : you can create this file and add all types you will need in project and you can use it directly without importing 
+
+* Fetching Data : 
+    - you can fetch data inside function inside page.tsx file but it's better for organization add those functions 
+    inside lib folder and then import them like ( import getAllUsers from '@/lib/getAllUsers' )
+
+    - in page.tsx of users folder :
+        * we fetched data of user and rendered the users name
+        * we added Metadata directly at page.tsx
+        * const usersData: Promise<User[]> = getAllUsers() 
+            because getAllUsers() will return promise and we added <User[]> for types (User type from types.d.ts file)
+    
+    in page.tsx of [userId] : 
+        * we created Dynamic Metadata (generateMetadata function and it's params is userId from Url )
+        * we have 2 options to do 2 fetch requests : 
+            [1] parallel ( use Promise.all([userData, userPostsData])) will fetch 2 request at same time
+            [2] Suspense to progressively render a page and show a result to the user while the rest of the content loads 
+                steps of option 2 : 
+                    [a] import { Suspense } from "react"
+                    [b] wrap the UserPosts component with Suspense component and pass the Promise as prop
+                    * note : Suspense component can accept a fallback prop to render it when loading ( fallback={<h2>Loading...</h2>}) 
+
+        * note : in option 1 we will fetch userData, userPostsData at same time so maybe will take a long time
+        so option 2 is better because you will fetch userData first to show user.name and Suspense userPostsData to show userPosts when it ready
+
+
+
+    
