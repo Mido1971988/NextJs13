@@ -25,7 +25,6 @@ https://nextjs.org/docs
 * to insall nextJs : npx create-next-app@latest
 
 * layout.tsx : any code will be written there will be applied to all pages ( in layout.tsx in app folder)
-    each page can have specific layout so code inside it will be applied to this specific page only ( in layout.tsx in about folder )
+    each page can have specific layout so code inside it will be applied to this specific page only ( in layout.tsx in about folder ).
 
-    
 
