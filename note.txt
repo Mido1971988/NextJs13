@@ -14,7 +14,7 @@ https://nextjs.org/docs
 * Hydration: 
     Each generated HTML is associated with minimal JavaScript code necessary for that page. When a page is loaded by the browser, its JavaScript code runs and makes the page fully interactive.
 
-* SSG ( static site generation ) vs Server-side Rendering : 
+* SSG ( static site generation ) vs SSR Server-side Rendering : 
     -Static Generation (Recommended): The HTML is generated at build time and will be reused on each request.
     -Server-side Rendering: The HTML is generated on each request.
     * you can use both method and that called hybrid nextJs 
@@ -64,6 +64,69 @@ https://nextjs.org/docs
         * note : in option 1 we will fetch userData, userPostsData at same time so maybe will take a long time
         so option 2 is better because you will fetch userData first to show user.name and Suspense userPostsData to show userPosts when it ready
 
+* in page.tsx in [userId] folder we fetched two times by invoking getUser() function two times 
+but in nextjs by default will combine those 2 fetches to one fetch.
+
+- Any <Link /> component will be prefetched by default
+    For example : you have home page and have users page 
+    When you at home page will not fetch the data untill you go to homepage\users from address bar in browser ( will download html file from server ) 
+    But if you add Link to this users page at home page will fetch data when you open home page and you have two options : 
+        [1] when you go to users page from address bar will download users html file from the server
+        [2] when you click on the link will not download users html file from server will use fetched data to create html at client side
+        * note : both 2 options data will be fetched on home page to be ready if you click on the link
+
+* SSG : Static Site Generation
+* SSR : Server Site Rendering ( for Dynamic Routes for example)
+* ISR : incremental Static Generation ( allows pages to be updated after a site has been built and deployed )
+
+* SSG vs SSR : 
+    [1] Static Site Generation is a technique for pre-rendering web pages , during the build process. 
+    The generated HTML, CSS, and JavaScript files are then served to the client, 
+    resulting in websites loading faster and providing heightened security.
+
+    [2] Server Side Rendering  is a technique where web pages are rendered on the server at request time for each user. 
+    This approach allows for dynamic data and interactive content to be generated on-the-fly, 
+    providing a more personalized user experience.
+
+* how to change SSR to SSG : 
+    for Example you have dynamic routes [userId] so nextjs will consider it as SSR because it does not know 
+    the numbers of userId but if you know you can tell nextJs what is the expected userId (by generateStaticParams())
+    we created generateStaticParams() function inside page.tsx inside [userId] folder 
+    and this function will return array of objects each object has userId prop
+    now nextjs knows the expected userId so will convert users/[userId] from SSR to SSG
+
+* 2nd parameter of fetch : 
+    [1] fetch(url, {cache: "force-cache"}) this if the defaut Nextjs cache data by default
+    [2] fetch(url, {cache: "no-store"}) will not cache data 
+    [3] fetch(url, {next: {revalidate : 60 }}) will check every 60 sec if there is updated data or not
+        and this can applied to SSG or SSR (this method is called ISR) (in getUserPosts.tsx)
+
+* Revalidation : is the process of purging the Data Cache and re-fetching the latest data. 
+    This is useful when your data changes and you want to ensure you show the latest information.
+    steps of Revalidation : 
+    when you request data for first time will fetch data and for example you added {next: {revalidate : 60 }}
+        -if you request data again before 60 sec will give you the data from cache
+        -if you request data after 60 sec will fetch a new data
+
+* dynamicParams: you can add export const dynamicParams = false; to page.tsx inside [userId] folder
+    so when you try to access page not returned from generateStaticParams() ( like users/999 ) will give you 404 page
+    * note: the default value is  dynamicParams = true so you can access any page number because it's dynamic
+    * note : maybe is a bug if generateStaticParams()  return({userId:1}, {userId:2} , ...) dynamicParams = false; will work
+        but if generateStaticParams()  return(users.map(user=>{userId:user.id.toString()})) dynamicParams = false; will not work
+
+* not-found page : 
+    nextjs by default give you 404 not found page if you write wrong url
+    but you can override it by creating not-found.tsx inside App folder
+
+    * note : you can show 404 page to dynamic route 
+        for example if you write users/999 will render blank page because you are using 
+        dynamic route so will accept any number
+        but you can use notFound() function : 
+            [a] import {notFound} from "next/navigation"
+            [b] if(!user.name) return  notFound()
+        so when you write users/999 user.name not availabe because so will give you 404 page (or not-found.tsx page if you override it )
+
+        
 
 
-    
+ 

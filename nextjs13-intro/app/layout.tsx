@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <nav>Navbar from Layout.tsx</nav>
+        {/* <nav>Navbar from Layout.tsx</nav> */}
         {children}
         </body>
     </html>
