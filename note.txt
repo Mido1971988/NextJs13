@@ -126,7 +126,16 @@ but in nextjs by default will combine those 2 fetches to one fetch.
             [b] if(!user.name) return  notFound()
         so when you write users/999 user.name not availabe because so will give you 404 page (or not-found.tsx page if you override it )
 
+* API routes : 
+    you can create api inside directory (app/api/folderName/route.ts)
+        export async function GET(){
+            return new Response("Hello, nextJs")
+            return NextResponse.json("Hello, nextJs")
+        }
+        * note : instead of returning response.json() we will use NextResponse.json() because response.json() not compatible with TypeScript
+        * note : you can use POST or GET
+        * note : to test api you can download Thunder Client extension in VSCODE
+        * note : we created feedback page.tsx that uses feedback route.ts api (see files to understand)
+        * note : Array.protoype.every(Boolean) will check if every element in array is truthy value (const canSave = [...Object.values(data)].every(Boolean) in page.tsx in feddback page folder)
+
         
-
-
- 
