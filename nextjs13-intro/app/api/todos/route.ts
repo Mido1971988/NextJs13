@@ -9,7 +9,15 @@ export async function GET() {
 
     const todos: Todo[] = await res.json()
 
-    return NextResponse.json(todos)
+    // return NextResponse.json(todos)
+
+    // if we are using cors in middleware.ts file
+    return new NextResponse(JSON.stringify(todos), {
+        headers: {
+            'Access-Control-Allow-Origin': origin || "*",
+            'Content-Type': 'application/json',
+        }
+    })
 }
 
 export async function POST(request: Request) {

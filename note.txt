@@ -150,3 +150,62 @@ but in nextjs by default will combine those 2 fetches to one fetch.
     The PUT method replaces all current representations of the target resource with the request payload. 
     The DELETE method deletes the specified resource
 
+* in GET Method accept second parameter and 2nd parameter is object has property id ( name of dynmaic route) 
+    so you can access id instead of accesing it from request.url ( in route.ts inside [id] inside todos folder)
+    this is like 2nd parameter in page.tsx in [userId] dynamic in app folder
+
+* Middleware :
+    - can modify request headers, response headers, and send responses
+    - Middleware will be invoked for every route in your project ( for example when you start dev mode 
+    of your application Middleware will be invoked for every request so we have to tell Middleware to 
+    be invoked only for specific path  and that what Matcher Path do ) 
+
+    - Matcher Path :
+    you have two options to do matcher path :
+    [1] conditional if : 
+        [a] if(request.url.includes("/api/")){} 
+        [b] const regex = new Regex("/api/*) if(regex.test(request.url)){} 
+    [2] export const config = { matcher = "/api/:path/*}
+        * note : :path means api/a or api/b .... but not api/a/b
+        * note : :path/* means api/a or api/b or api/a/b
+
+* Limiter : install ( npm i limiter)
+    It's a tool that controls the rate at which an action can be performed by a user 
+    or an IP address. This can prevent a single user from making too many requests in 
+    a short period of time and overwhelming the server
+
+    steps : 
+        [1] create folder called config inside api folder and create limiter.ts file inside it ( see file to understand)
+        [2] import limiter and use it with any route you want (by using limiter.removeTokens(1) at every request) ( we tried it at route.ts inside api/hello)
+        * notes : 
+            - tokens will be shared if you use limiter for more than one route ( for example if you add 3 
+            tokens and use limiter in hello and about route and request 2 times from hello and then request 2 times from about 
+            will allow you to request one time only then will give you status 429 too many requests)
+            - if you want not to share token you can add limiter.ts file for each route you want
+        
+* Cross-origin resource sharing (CORS) :
+    is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain 
+    from which the first resource was served. A web page may freely embed cross-origin images, 
+    stylesheets, scripts, iframes, and videos.
+
+* Types of CORS requests: 
+    [1] simple requests: GET, POST ( These methods are considered safe because they are not capable of causing a change in state on the server ) 
+    [2] PUT , DELETE ( These methods can cause a change in state on the server, so the browser sends a request to the server to check if the request is allowed ) 
+
+CORS mechanism
+    The CORS mechanism works by adding HTTP headers to cross-origin HTTP requests and responses.
+    These headers indicate whether the request or response is allowed to access the resources.
+
+How does CORS work?
+    When a browser sends a request to a server, it includes an Origin header. This header contains the origin of the request, 
+    which is the domain, protocol, and port of the page making the request.
+    The server can then decide whether to allow or deny the request. 
+    If the request is allowed, the server includes the Access-Control-Allow-Origin header in the response. 
+    This header specifies the origin that is allowed to access the resources.
+    If the request is denied, the server includes the Access-Control-Allow-Origin header with a value of "*", 
+    which indicates that no origin is allowed to access the resources.
+
+- API Routes do not specify CORS headers, meaning they are same-origin only by default.
+
+- Thunder client extension does not have origin so if you want to block it add || !origin to ( if(origin && !allowedOrigins.includes(origin)){} in middleware.ts file ) so will be if(origin && !allowedOrigins.includes(origin) || !origin){}
+
