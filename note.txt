@@ -127,7 +127,7 @@ but in nextjs by default will combine those 2 fetches to one fetch.
         so when you write users/999 user.name not availabe because so will give you 404 page (or not-found.tsx page if you override it )
 
 * API routes : 
-    you can create api inside directory (app/api/folderName/route.ts)
+    - you can create api inside directory (app/api/folderName/route.ts)
         export async function GET(){
             return new Response("Hello, nextJs")
             return NextResponse.json("Hello, nextJs")
@@ -138,4 +138,15 @@ but in nextjs by default will combine those 2 fetches to one fetch.
         * note : we created feedback page.tsx that uses feedback route.ts api (see files to understand)
         * note : Array.protoype.every(Boolean) will check if every element in array is truthy value (const canSave = [...Object.values(data)].every(Boolean) in page.tsx in feddback page folder)
 
-        
+    - we usually use API routes in nextjs to hide secret key or secret URL 
+    - if you are fetching data in server component no need to use API routes because already hidden from client side
+    - if you want github ignore a file and not upload it to repo add name of file to .gitignore 
+    - you can put you API KEY in .env.local file and github will not upload it to reop because it's mentioned in .gitignore file
+    - you can add dynamic route folder ( like [id] inside todos folder inside api folder) 
+    * note : const { id }: Partial<Todo> ( in route.ts in todos folder) Partial means i can write only id without typescript error no need to write all properties
+
+* difference between PUT , POST , DELETE ? 
+    The POST method submits an entity to the specified resource, often causing a change in state or side effects on the server. 
+    The PUT method replaces all current representations of the target resource with the request payload. 
+    The DELETE method deletes the specified resource
+
