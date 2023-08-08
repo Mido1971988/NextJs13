@@ -195,6 +195,16 @@ but in nextjs by default will combine those 2 fetches to one fetch.
     from which the first resource was served. A web page may freely embed cross-origin images, 
     stylesheets, scripts, iframes, and videos.
 
+The Route Segment Config Options allows you configure the behavior of a Page, Layout, or
+Route Handler by directly exporting the a variable like : 
+[1]
+[2]
+
+* Note : if you add revalidate as 2nd parameter of fetch , will override the revalidate of Route Segment Config ( )
+* Note : To test Revalidation test it in build mode not dev mode 
+* Note : when you change data on server and set revalidation=10 after 10 secs when you refresh the page , the page will not be updated with new data , will be updated with 2nd refresh , why ? 
+    Because 1st refresh will trigger revalidation and 2nd refresh get the new version and to solve this issue you h ave to do on-demand revalidation . 
+
 * Types of CORS requests: 
     [1] simple requests: GET, POST ( These methods are considered safe because they are not capable of causing a change in state on the server ) 
     [2] PUT , DELETE ( These methods can cause a change in state on the server, so the browser sends a request to the server to check if the request is allowed ) 
@@ -214,3 +224,24 @@ but in nextjs by default will combine those 2 fetches to one fetch.
 - Thunder client extension does not have origin so will be always allowed so if you want to block it 
     add || !origin to ( if(origin && !allowedOrigins.includes(origin)){} in middleware.ts file ) so will be if(origin && !allowedOrigins.includes(origin) || !origin){}
 
+* The Route Segment Config Options allows you configure the behavior of a Page, Layout by directly exporting the a variable like : 
+    [1] const dynamicParams = false;
+    [2] const revalidate = 10;
+
+    * Note : if you add revalidate as 2nd parameter of fetch , will override the revalidate of Route Segment Config ( )
+    * Note : To test Revalidation test it in build mode not dev mode 
+    * Note : when you change data on server and set revalidation=10 after 10 secs when you refresh the page , the page will not be updated with new data , will be updated with 2nd refresh , why ? 
+    Because 1st refresh will trigger revalidation and 2nd refresh get the new version and to solve this issue you have to do on-demand revalidation .
+
+* On-demand revalidation  : 
+    [1] create revalidate.ts file inside pages/api 
+    [2] request it by this link for example ( http://localhost:3000/api/revalidate?path=/&secret=DaveGrayTeachesCode ) 
+        * note : we added secret key in .env.local file 
+        now we triggered revalidation so when new data added to server wil be shown on page with 1st refresh not 2nd refresh
+        * note : On-demand revalidation used when you want only users who has secret token to see updated data
+
+
+
+
+
+    

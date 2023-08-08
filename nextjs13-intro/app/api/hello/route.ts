@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { limiter } from "../config/limiter"
 
-export async function GET(request: Request) {
+export async function GET(request:Request) {
 
     const origin = request.headers.get('origin')
 
