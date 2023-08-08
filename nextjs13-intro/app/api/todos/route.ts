@@ -4,8 +4,10 @@ const DATA_SOURCE_URL = "https://jsonplaceholder.typicode.com/todos"
 
 const API_KEY: string = process.env.DATA_API_KEY as string
 
-export async function GET() {
+export async function GET(request : Request) {
     const res = await fetch(DATA_SOURCE_URL)
+
+    const origin = request.headers.get("origin")
 
     const todos: Todo[] = await res.json()
 
@@ -14,7 +16,7 @@ export async function GET() {
     // if we are using cors in middleware.ts file
     return new NextResponse(JSON.stringify(todos), {
         headers: {
-            'Access-Control-Allow-Origin': origin || "*",
+            'Access-Control-Allow-Origin':origin || "*",
             'Content-Type': 'application/json',
         }
     })

@@ -150,16 +150,17 @@ but in nextjs by default will combine those 2 fetches to one fetch.
     The PUT method replaces all current representations of the target resource with the request payload. 
     The DELETE method deletes the specified resource
 
-* in GET Method accept second parameter and 2nd parameter is object has property id ( name of dynmaic route) 
+* in GET Method accept 2nd parameter and 2nd parameter is object has property id ( name of dynmaic route) 
     so you can access id instead of accesing it from request.url ( in route.ts inside [id] inside todos folder)
     this is like 2nd parameter in page.tsx in [userId] dynamic in app folder
 
 * Middleware :
     - can modify request headers, response headers, and send responses
+    - Middleware returns NextResponse.next() (Returns a NextResponse that will continue the middleware chain)
+
     - Middleware will be invoked for every route in your project ( for example when you start dev mode 
     of your application Middleware will be invoked for every request so we have to tell Middleware to 
     be invoked only for specific path  and that what Matcher Path do ) 
-
     - Matcher Path :
     you have two options to do matcher path :
     [1] conditional if : 
@@ -168,6 +169,12 @@ but in nextjs by default will combine those 2 fetches to one fetch.
     [2] export const config = { matcher = "/api/:path/*}
         * note : :path means api/a or api/b .... but not api/a/b
         * note : :path/* means api/a or api/b or api/a/b
+
+* difference between NextResponse.next() , NextResponse.json() and new NextResponse(JSON.stringify(),{headers}) ?
+    [1] NextResponse.next() returned by Middleware to continue the middleware chain
+    [2] NextResponse.json() returned by route.ts 
+    [3] new NextResponse(JSON.stringify(),{headers}) returned by route.ts if you want 
+        to add Access-Control-Allow-Origin headers
 
 * Limiter : install ( npm i limiter)
     It's a tool that controls the rate at which an action can be performed by a user 
@@ -192,20 +199,18 @@ but in nextjs by default will combine those 2 fetches to one fetch.
     [1] simple requests: GET, POST ( These methods are considered safe because they are not capable of causing a change in state on the server ) 
     [2] PUT , DELETE ( These methods can cause a change in state on the server, so the browser sends a request to the server to check if the request is allowed ) 
 
-CORS mechanism
+* CORS mechanism :
     The CORS mechanism works by adding HTTP headers to cross-origin HTTP requests and responses.
     These headers indicate whether the request or response is allowed to access the resources.
 
-How does CORS work?
+* How does CORS work?
     When a browser sends a request to a server, it includes an Origin header. This header contains the origin of the request, 
     which is the domain, protocol, and port of the page making the request.
-    The server can then decide whether to allow or deny the request. 
-    If the request is allowed, the server includes the Access-Control-Allow-Origin header in the response. 
-    This header specifies the origin that is allowed to access the resources.
-    If the request is denied, the server includes the Access-Control-Allow-Origin header with a value of "*", 
-    which indicates that no origin is allowed to access the resources.
+    The server can then decide whether to allow or deny the origin of request according to Access-Control-Allow-Origin ( see route.ts in todos Folder). 
 
 - API Routes do not specify CORS headers, meaning they are same-origin only by default.
-
-- Thunder client extension does not have origin so if you want to block it add || !origin to ( if(origin && !allowedOrigins.includes(origin)){} in middleware.ts file ) so will be if(origin && !allowedOrigins.includes(origin) || !origin){}
+    so we have to return new NextResponse(JSON.stringify(),{headers:{Access-Control-Allow-Origin:origin we want to allow}})
+    
+- Thunder client extension does not have origin so will be always allowed so if you want to block it 
+    add || !origin to ( if(origin && !allowedOrigins.includes(origin)){} in middleware.ts file ) so will be if(origin && !allowedOrigins.includes(origin) || !origin){}
 
