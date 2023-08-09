@@ -254,5 +254,10 @@ but in nextjs by default will combine those 2 fetches to one fetch.
 - The push() and replace() methods will perform a soft navigation if the new route has been prefetched 
     ( for example when you check a box of todo list on item page and go back to home page by using push or replace method , 
     those method will do soft navigation so will use cached version of home page so the box of item on hime page will be unchecked not checked ) 
-    This problem maybe solved in newer versions on NextJS or you can use temporary solution by using prefetch={false} to each Link of item and to 
+    This problem solved in newer versions on NextJS or before newer version use temporary solution by using prefetch={false} to each Link of item and to 
     Links on Home page but this solution will not work if you go back to home page by back button on browser works only when you press on home page link on item page 
+    
+    * note : to check data mutation , router.refresh and Hard navigation & Soft Navigation check ToDoList project 
+        and ToDoList Project needs json server , to create json server : ( npx json-server -w db.json -p 3500 -H 127.0.0.1 )
+
+
