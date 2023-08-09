@@ -195,16 +195,6 @@ but in nextjs by default will combine those 2 fetches to one fetch.
     from which the first resource was served. A web page may freely embed cross-origin images, 
     stylesheets, scripts, iframes, and videos.
 
-The Route Segment Config Options allows you configure the behavior of a Page, Layout, or
-Route Handler by directly exporting the a variable like : 
-[1]
-[2]
-
-* Note : if you add revalidate as 2nd parameter of fetch , will override the revalidate of Route Segment Config ( )
-* Note : To test Revalidation test it in build mode not dev mode 
-* Note : when you change data on server and set revalidation=10 after 10 secs when you refresh the page , the page will not be updated with new data , will be updated with 2nd refresh , why ? 
-    Because 1st refresh will trigger revalidation and 2nd refresh get the new version and to solve this issue you h ave to do on-demand revalidation . 
-
 * Types of CORS requests: 
     [1] simple requests: GET, POST ( These methods are considered safe because they are not capable of causing a change in state on the server ) 
     [2] PUT , DELETE ( These methods can cause a change in state on the server, so the browser sends a request to the server to check if the request is allowed ) 
@@ -241,7 +231,28 @@ Route Handler by directly exporting the a variable like :
         * note : On-demand revalidation used when you want only users who has secret token to see updated data
 
 
-
-
-
+* Data Mutation : 
+    is a common side-effect in programming. 
+    To mutate a variable once it has been defined means to alter its value.
+    here in NextJs we means by data mutation is changing data from server after page is rendered
     
+* note : To get updated data immediately you have 2 options ( on 2nd parameter on fetch ) or Route Segment Config: 
+    [1] { cache :  ‘no-store’ } 
+    [2] { revalidate :  0 } 
+    [3] const revalidate = 0;
+
+
+* router.refresh() :
+    Send a new request to the server, refetch data and rerender the page 
+
+* Hard navigation vs Soft Navigation ?
+    Hard navigation : 
+        On navigation, the cache is invalidated and the server refetches data and re-renders the changed segments.
+    Soft Navigation: 
+        On navigation, the cache for changed segments is reused (if it exists), and no new requests are made to the server for data.
+
+- The push() and replace() methods will perform a soft navigation if the new route has been prefetched 
+    ( for example when you check a box of todo list on item page and go back to home page by using push or replace method , 
+    those method will do soft navigation so will use cached version of home page so the box of item on hime page will be unchecked not checked ) 
+    This problem maybe solved in newer versions on NextJS or you can use temporary solution by using prefetch={false} to each Link of item and to 
+    Links on Home page but this solution will not work if you go back to home page by back button on browser works only when you press on home page link on item page 
