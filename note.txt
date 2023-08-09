@@ -224,11 +224,12 @@ but in nextjs by default will combine those 2 fetches to one fetch.
     Because 1st refresh will trigger revalidation and 2nd refresh get the new version and to solve this issue you have to do on-demand revalidation .
 
 * On-demand revalidation  : 
-    [1] create revalidate.ts file inside pages/api 
+    [1] create revalidate.ts file inside pages/api (now with new version you can add it to app/api but you have to use revalidatePath() method check Final Project)
     [2] request it by this link for example ( http://localhost:3000/api/revalidate?path=/&secret=DaveGrayTeachesCode ) 
         * note : we added secret key in .env.local file 
         now we triggered revalidation so when new data added to server wil be shown on page with 1st refresh not 2nd refresh
         * note : On-demand revalidation used when you want only users who has secret token to see updated data
+
 
 
 * Data Mutation : 
@@ -261,3 +262,22 @@ but in nextjs by default will combine those 2 fetches to one fetch.
         and ToDoList Project needs json server , to create json server : ( npx json-server -w db.json -p 3500 -H 127.0.0.1 )
 
 
+- check Final Project 
+    * Difference between md (mark down )  and mdx ?
+        MDX allows you to use JSX in your markdown content. You can import components, such as interactive charts or alerts, and embed them within your content.
+        MDX doesn’t have a new or special syntax because it’s just a combination of Markdown and JSX in one place
+
+        If your Markdown or MDX files do not live inside your application, you can fetch them dynamically on the server ( like github repo api ) 
+
+        To access frontmatter outside of your MDX when passing parsefrontmatter: true, use the compileMdx method imported from next-mdx-remote/rsc
+
+
+    * Steps of usin mdx-remote : 
+
+    [1] To install mdx remote ( npm i next-mdx-remote)
+    [2] import { compileMDX } from “next-mdx-remote/rsc”
+    [3] compileMDX accepts parameters ( source, options ) 
+    [4] destructure { frontmatter, content } = await compileMDX() 
+    [5] access data by frontmatter like ( frontmatter.title ) 
+
+    - note : Revalidate = 0 and generateStaticParams  don’t mix because 0 means no-cache so no static pages
