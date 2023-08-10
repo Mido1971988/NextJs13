@@ -280,4 +280,18 @@ but in nextjs by default will combine those 2 fetches to one fetch.
     [4] destructure { frontmatter, content } = await compileMDX() 
     [5] access data by frontmatter like ( frontmatter.title ) 
 
-    - note : Revalidate = 0 and generateStaticParams  don’t mix because 0 means no-cache so no static pages
+    - note : Revalidate = 0 and generateStaticParams don’t mix because 0 means no-cache so no static pages
+    - note : github repo api 
+        https://api.github.com/repos/Mido1971988/test-blogposts/git/trees/master?recursive=1
+        [1] https://api.github.com/repos
+        [2] Mido1971988 ( your username )
+        [3] test-blogposts ( your repo name )
+        [4] git/trees
+        [5] master ( your branch name )
+        [6] ?recursive=1
+    - note : to revalidate you can use thunder client or you can write it on browser ( because url in browser is a GET request )
+        http://localhost:3000/api/revalidate?path=/&secret=DaveGrayTeachesCode  
+        [1] http://localhost:3000/api/revalidate ( revalidate location )
+        [2] path=/ ( / means home page)
+        [3] &secret=DaveGrayTeachesCode ( we added secret token to do revalidation only with this token)
+
