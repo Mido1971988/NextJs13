@@ -295,3 +295,46 @@ but in nextjs by default will combine those 2 fetches to one fetch.
         [2] path=/ ( / means home page)
         [3] &secret=DaveGrayTeachesCode ( we added secret token to do revalidation only with this token)
 
+* server Actions ( check ToDoList project folder ) : 
+    They enable server-side data mutations, reduced client-side JavaScript, 
+    and progressively enhanced forms
+    
+    - means you can add form element inside server component and you have 3 methods to do this :
+        You can invoke Server Actions using the following methods:
+            
+            [1] Using action: React's action prop allows invoking a Server Action on a <form>element.
+                like in AddTodo2.tsx file we added attribute action={addTodo} to Form Element ( addTodo imported from actions.ts)
+            
+            [2] Using formAtion: React's formAction prop allows handling <button>, <input type="submit">, and <input type="image"> elements in a <form>
+                like in Todo2.tsx file we added atttribute formAction={async () => {
+                        'use server'
+                        await deleteTodo(todo)
+                    }}
+                    ( deleteTodo imported from actions.ts)
+                    This method you need to add 'use server' , 'use server' is at actions.ts file but you have to write it again
+
+            [3] Custom Invocation with startTransition: Invoke Server Actions without using action or formAtion by using startTransition. 
+                This method disables Progressive Enhancement.
+                like in UpdateCheckbox.tsx file
+                - note : to be sure that method disable Progressive Enhancement , disable Javascript from browser and try 
+                    to check any box so when you refresh the box will be unchecked because there is no JS to change it on server
+
+
+
+    - note : Progressive Enhancement allows a <forms to function properly without JavaScript, 
+        or with JavaScript disabled. This allows users to interact with the form and submit data 
+        even if the JavaScript for the form hasn't been loaded yet or if it fails to load.
+    - note : you can try this by clicking on three dots on console page in browser and select run comand then 
+        select disable JavaScript
+    - note : in UpdateCheckbox.tsx file 
+        before was problem of soft and hard navigation and he used useRouter and useFormStatus to solve it
+        but now in newer version no need of this
+    - note : in UpdateCheckbox.tsx file
+        he used useOptimistic because there is aproblem
+        when you click on checkbox it will take sec because we updating data directly on the server
+        but by using useOptimistic will check the box in UI then check the server if ok box remains checked 
+        if not will uncheck the box
+
+    
+
+
